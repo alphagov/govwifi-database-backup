@@ -37,5 +37,3 @@ then
 else
         echo BACKUPS OK
 fi
-
-
