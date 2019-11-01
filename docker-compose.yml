@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  db:
+    build: ./mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: govwifi_test
+    expose:
+      - "3306"
+
+  app:
+    build: .
+    environment:
+      WIFI_DB_NAME: govwifi_test
+      WIFI_DB_PASS: root
+      WIFI_DB_USER: root
+      WIFI_DB_HOST: db
+      USER_DB_NAME: govwifi_test
+      USER_DB_PASS: root
+      USER_DB_USER: root
+      USER_DB_HOSTNAME: db
+      ADMIN_DB_NAME: govwifi_test
+      ADMIN_DB_PASS: root
+      ADMIN_DB_USER: root
+      ADMIN_DB_HOSTNAME: db
