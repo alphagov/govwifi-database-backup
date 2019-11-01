@@ -26,6 +26,9 @@ services:
 
   app:
     build: .
+    depends_on:
+     - db
+     - fake-s3
     environment:
       WIFI_DB_NAME: govwifi_test
       WIFI_DB_PASS: root
@@ -40,3 +43,6 @@ services:
       ADMIN_DB_USER: root
       ADMIN_DB_HOSTNAME: db
       S3_BUCKET: backup-bucket
+      AWS_ACCESS_KEY_ID: testkey
+      AWS_SECRET_ACCESS_KEY: testsecret
+      ENDPOINT_URL: "http://fake-s3:4572"
