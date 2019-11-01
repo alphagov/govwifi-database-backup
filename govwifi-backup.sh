@@ -6,7 +6,7 @@ echo "Starting backup of databases to S3..."
 
 MYSQL_PWD="${WIFI_DB_PASS}" mysqldump \
   -h "${WIFI_DB_HOST}" -u "${WIFI_DB_USER}" \
-  --set-gtid-purged=OFF --compress --quick \
+  --set-gtid-purged=OFF --compress --quick --single-transaction \
   --no-create-info --complete-insert "${WIFI_DB_NAME}" \
   | gzip -c | aws s3 cp - s3://"${S3_BUCKET}/wifi-backup-$(date -I)".sql.gz
 
@@ -15,7 +15,7 @@ if [ $STATUS1 -eq 0 ] ; then echo OK ; else echo FAILED ; fi
 
 MYSQL_PWD="${USERS_DB_PASS}" mysqldump \
   -h "${USERS_DB_HOST}" -u "${USERS_DB_USER}" \
-  --set-gtid-purged=OFF --compress --quick \
+  --set-gtid-purged=OFF --compress --quick --single-transaction \
   --no-create-info --complete-insert "${USERS_DB_NAME}" \
   | gzip -c | aws s3 cp - s3://"${S3_BUCKET}/wifi-backup-user-details-$(date -I)".sql.gz
 
@@ -24,7 +24,7 @@ if [ $STATUS2 -eq 0 ] ; then echo OK ; else echo FAILED ; fi
 
 MYSQL_PWD="${ADMIN_DB_PASS}" mysqldump \
   -h "${ADMIN_DB_HOST}" -u "${ADMIN_DB_USER}" \
-  --set-gtid-purged=OFF --compress --quick \
+  --set-gtid-purged=OFF --compress --quick --single-transaction \
   --no-create-info --complete-insert "${ADMIN_DB_NAME}" \
   | gzip -c | aws s3 cp - s3://"${S3_BUCKET}/wifi-backup-admin-$(date -I)".sql.gz
 
