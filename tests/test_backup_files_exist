@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -euo pipefail
+
+FILES="$(docker-compose exec -T fake-s3 awslocal s3 ls s3://backup-bucket | awk '{ print $4 }')"
+COUNT=$(wc -w <<< ${FILES})
+
+if [ ${COUNT} -eq 3 ]; then
+  echo "SUCCESS: All backup files created (3):"
+  echo "${FILES}"
+  exit 0
+else
+  echo "FAILURE: Some backup files not created:"
+  echo "${FILES}"
+  exit 1
+fi
