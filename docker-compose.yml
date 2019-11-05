@@ -1,0 +1,52 @@
+version: '3.4'
+
+services:
+  db:
+    build: ./mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: govwifi_test
+    expose:
+      - "3306"
+
+  fake-s3:
+    image: localstack/localstack
+    ports:
+      - "4572:4572"
+      - "8080:8080"
+    environment:
+      - SERVICES=s3
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=testkey
+      - AWS_SECRET_ACCESS_KEY=testsecret
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./fake-s3:/docker-entrypoint-initaws.d
+      - s3-data:/tmp/localstack
+
+  app:
+    build: .
+    depends_on:
+     - db
+     - fake-s3
+    environment:
+      WIFI_DB_NAME: govwifi_test
+      WIFI_DB_PASS: root
+      WIFI_DB_USER: root
+      WIFI_DB_HOST: db
+      USERS_DB_NAME: govwifi_test
+      USERS_DB_PASS: root
+      USERS_DB_USER: root
+      USERS_DB_HOST: db
+      ADMIN_DB_NAME: govwifi_test
+      ADMIN_DB_PASS: root
+      ADMIN_DB_USER: root
+      ADMIN_DB_HOST: db
+      S3_BUCKET: backup-bucket
+      AWS_ACCESS_KEY_ID: testkey
+      AWS_SECRET_ACCESS_KEY: testsecret
+      ENDPOINT_URL: "http://fake-s3:4572"
+
+volumes:
+  s3-data:

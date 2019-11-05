@@ -10,6 +10,16 @@ Backups are scheduled to run nightly and target replica instances. This is in ad
 
 The backup script runs as a scheduled container task using Amazon ECS.
 
+## Getting started
+
+To build configure and run the application via docker-compose:
+
+`make build`
+
+To run tests:
+
+`make test`
+
 ## Environment Variables
 
 The following environment variables are required:

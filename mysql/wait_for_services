@@ -1,0 +1,12 @@
+#!/bin/bash
+until docker-compose exec -T db mysql -hdb -uroot -proot -e 'SELECT 1' &> /dev/null
+do
+  printf "."
+  sleep 1
+done
+
+until docker-compose exec -T fake-s3 awslocal s3api head-bucket --bucket backup-bucket 2>/dev/null
+do
+  printf "."
+  sleep 1
+done
