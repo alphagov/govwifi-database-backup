@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-set -eu
+set -euf -o pipefail
 
 echo "Starting encrypted backup of databases to S3..."
 
@@ -11,7 +11,6 @@ echo -n "STARTING SQL DUMP OF SESSIONS DB - "
 MYSQL_PWD="${WIFI_DB_PASS}" mysqldump -h "${WIFI_DB_HOSTNAME}" -u "${WIFI_DB_USER}" \
   --compress --quick --single-transaction --no-create-info --complete-insert "${WIFI_DB_NAME}" \
   | gzip -c | openssl enc -base64 -pass pass:${ENCRYPTION_KEY} | aws ${BACKUP_ENDPOINT_ARG} s3 cp - s3://"${S3_BUCKET}/wifi-backup-$(date -I)".sql.gz.enc
-
 STATUS1=$?
 [ $STATUS1 -eq 0 ] && echo COMPLETE || echo FAILED
 
