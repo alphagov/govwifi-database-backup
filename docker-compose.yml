@@ -34,19 +34,20 @@ services:
       WIFI_DB_NAME: govwifi_test
       WIFI_DB_PASS: root
       WIFI_DB_USER: root
-      WIFI_DB_HOST: db
+      WIFI_DB_HOSTNAME: db
       USERS_DB_NAME: govwifi_test
       USERS_DB_PASS: root
       USERS_DB_USER: root
-      USERS_DB_HOST: db
+      USERS_DB_HOSTNAME: db
       ADMIN_DB_NAME: govwifi_test
       ADMIN_DB_PASS: root
       ADMIN_DB_USER: root
-      ADMIN_DB_HOST: db
+      ADMIN_DB_HOSTNAME: db
+      ENCRYPTION_KEY: 1234567890
       S3_BUCKET: backup-bucket
       AWS_ACCESS_KEY_ID: testkey
       AWS_SECRET_ACCESS_KEY: testsecret
-      ENDPOINT_URL: "http://fake-s3:4572"
+      BACKUP_ENDPOINT_URL: "http://fake-s3:4572"
 
 volumes:
   s3-data:
