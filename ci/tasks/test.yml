@@ -1,0 +1,15 @@
+---
+platform: linux
+
+inputs:
+  - name: src
+  - name: docker-cache/python-image
+  - name: docker-cache/mysql-image
+  - name: docker-cache/localstack-image
+
+params:
+  ON_CONCOURSE: true
+
+run:
+  path: docker-wrapper
+  args: [src/ci/tasks/scripts/test.sh]
