@@ -5,7 +5,7 @@ RUN wget "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" \
  && rm awscli-bundle.zip \
  && ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws \
  && rm -r ./awscli-bundle
-RUN apk --no-cache add mariadb-client bash
+RUN apk --no-cache add mariadb-client bash openssl
 
 COPY govwifi-backup.sh ./
 RUN chmod +x /govwifi-backup.sh
