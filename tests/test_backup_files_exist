@@ -10,7 +10,7 @@ if [ ${COUNT} -eq 3 ]; then
   echo "${FILES}"
   exit 0
 else
-  echo "FAILURE: Some backup files not created:"
+  echo "FAILURE: Some backup files not created - found ${COUNT}:"
   echo "${FILES}"
   exit 1
 fi
