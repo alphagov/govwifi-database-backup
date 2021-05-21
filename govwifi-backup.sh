@@ -4,7 +4,7 @@ set -euf -o pipefail
 
 echo "Starting encrypted backup of databases to S3..."
 
-ENDPOINT_ARG=${BACKUP_ENDPOINT_URL:+--endpoint-url=$BACKUP_ENDPOINT_URL}
+BACKUP_ENDPOINT_ARG=${BACKUP_ENDPOINT_URL:+--endpoint-url=$BACKUP_ENDPOINT_URL}
 
 # set the mysql pass pre command inline so not to appear in the proc list
 echo -n "STARTING SQL DUMP OF SESSIONS DB - "
