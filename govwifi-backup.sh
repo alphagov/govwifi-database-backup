@@ -2,6 +2,17 @@
 
 set -euf -o pipefail
 
+if [ "${BACKUP_ENDPOINT_ARG}" == "" ]; then
+  echo " Starting S3 access tests..."
+  echo -n "Getting GovWifi-Logo.png from s3://${S3_BUCKET}..."
+  aws ${BACKUP_ENDPOINT_ARG} s3 cp "s3://${S3_BUCKET}/GovWifi-Logo.png" /tmp/
+  [ $? -eq 0 ] && echo "OK" || echo "Fail"
+  echo "testtest" > /tmp/testfile
+  echo -n "Testing putting testfile to s3://${S3_BUCKET}..."
+  aws ${BACKUP_ENDPOINT_ARG} s3 cp /tmp/testfile "s3://${S3_BUCKET}/GovWifi-Logo.png"
+  [ $? -eq 0 ] && echo "OK" || echo "Fail"
+fi
+
 echo "Starting encrypted backup of databases to S3..."
 
 BACKUP_ENDPOINT_ARG=${BACKUP_ENDPOINT_URL:+--endpoint-url=$BACKUP_ENDPOINT_URL}
