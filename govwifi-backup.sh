@@ -2,7 +2,10 @@
 
 set -euf -o pipefail
 
-if [ "${BACKUP_ENDPOINT_ARG}" == "" ]; then
+if [ "${BACKUP_ENDPOINT_URL}" != "" ]; then
+  BACKUP_ENDPOINT_ARG=${BACKUP_ENDPOINT_URL:+--endpoint-url=$BACKUP_ENDPOINT_URL}
+else
+  BACKUP_ENDPOINT_ARG="";
   echo " Starting S3 access tests..."
   echo -n "Getting GovWifi-Logo.png from s3://${S3_BUCKET}..."
   aws ${BACKUP_ENDPOINT_ARG} s3 cp "s3://${S3_BUCKET}/GovWifi-Logo.png" /tmp/
@@ -14,8 +17,6 @@ if [ "${BACKUP_ENDPOINT_ARG}" == "" ]; then
 fi
 
 echo "Starting encrypted backup of databases to S3..."
-
-BACKUP_ENDPOINT_ARG=${BACKUP_ENDPOINT_URL:+--endpoint-url=$BACKUP_ENDPOINT_URL}
 
 # set the mysql pass pre command inline so not to appear in the proc list
 echo -n "STARTING SQL DUMP OF SESSIONS DB - "
