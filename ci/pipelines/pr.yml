@@ -42,12 +42,6 @@ resource_types:
   source:
     repository: teliaoss/github-pr-resource
 
-resources:
-  - name: tech-ops
-    type: git
-    source:
-      uri: https://github.com/alphagov/tech-ops.git
-
   - name: govwifi-database-backup
     type: git
     source:
@@ -79,19 +73,10 @@ jobs:
   - name: self-update
     serial: true
     plan:
-    - get: tech-ops
-      params:
-        submodules: none
     - get: govwifi-database-backup
       trigger: true
-    - task: set-pipelines
-      file: tech-ops/ci/tasks/self-updating-pipeline.yaml
-      input_mapping: {repository: govwifi-database-backup}
-      params:
-        CONCOURSE_TEAM: govwifi
-        CONCOURSE_PASSWORD: ((readonly_local_user_password))
-        PIPELINE_PATH: ci/pipelines/pr.yml
-        PIPELINE_NAME: database-backup-pr
+    - set_pipeline: database-backup-pr
+      - file: govwifi-database-backup/ci/pipeline.yml
 
   - name: lint & test
     interruptible: true
