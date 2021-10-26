@@ -76,7 +76,7 @@ jobs:
     - get: govwifi-database-backup
       trigger: true
     - set_pipeline: database-backup-pr
-      - file: govwifi-database-backup/ci/pipeline.yml
+      file: govwifi-database-backup/ci/pipeline.yml
 
   - name: lint & test
     interruptible: true
