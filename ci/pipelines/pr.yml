@@ -98,7 +98,7 @@ jobs:
     # force people to use new git commits to rerun PRs
     disable_manual_trigger: true
     plan:
-      - aggregate:
+      - in_parallel:
         - do:
           - get: src
             resource: pull-request
@@ -106,12 +106,12 @@ jobs:
             version: every
           - <<: *update-status-pending
 
-        # fetch each image and place in the docker-cache directory
-        - get: 'docker-cache/python-image'
-          resource: python-image
-          params: {format: oci}
+          # fetch each image and place in the docker-cache directory
+          - get: 'docker-cache/python-image'
+            resource: python-image
+            params: {format: oci}
 
-        - get: runner
+          - get: runner
 
       # used to avoid building multiple times down the road
       - task: pre-build
@@ -119,15 +119,16 @@ jobs:
         image: runner
         file: src/ci/tasks/pre-build.yml
 
-      - aggregate:
-        - task: lint
-          privileged: true
-          image: runner
-          file: src/ci/tasks/lint.yml
-        - task: test
-          privileged: true
-          image: runner
-          file: src/ci/tasks/test.yml
+      - in_parallel:
+        - do:
+          - task: lint
+            privileged: true
+            image: runner
+            file: src/ci/tasks/lint.yml
+          - task: test
+            privileged: true
+            image: runner
+            file: src/ci/tasks/test.yml
 
     on_failure:
       do:
@@ -135,4 +136,3 @@ jobs:
     on_success:
       do:
         - <<: *update-status-success
-        
