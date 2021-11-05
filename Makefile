@@ -13,3 +13,6 @@ destroy:
 
 .PHONY: build test destroy
 	
+prebuild:
+	docker-compose down
+	docker-compose up
