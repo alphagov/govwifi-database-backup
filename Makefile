@@ -14,5 +14,5 @@ destroy:
 .PHONY: build test destroy
 	
 prebuild:
-	docker-compose down
-	docker-compose up
+	echo "docker-compose down"
+# 	# docker-compose up
