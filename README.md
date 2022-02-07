@@ -1,6 +1,6 @@
 # GovWifi Database Backup
 
-This repository contains scripts used to perform automated data exports of all GovWifi MySQL databases for backup purposes.
+This repository contains scripts used to perform automated data exports of all GovWifi MySQL databases for backup purposes
 
 ## Overview
 
