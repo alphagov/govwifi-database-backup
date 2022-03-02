@@ -2,10 +2,10 @@ name: govwifi-database-backup test
 on:
   push:
     branches:
-      - test-github-actions
+      - master
   pull_request:
     branches:
-      - test-github-actions
+      - master
 
 jobs:
   test:
