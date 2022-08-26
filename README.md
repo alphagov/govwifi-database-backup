@@ -43,3 +43,7 @@ The following environment variables are required:
 ## Logging & Metrics
 
 The successful completion of the backup is logged using Cloudwatch Logs and used to create a metric filter with relevant alerting.
+
+## Scheduling
+
+The task is scheduled in the relevant AWS Account, ECS, Clusters (staging-api-cluster), Scheduled Tasks.
