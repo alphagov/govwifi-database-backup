@@ -1,0 +1,22 @@
+version: 0.2
+phases:
+    pre_build:
+        commands:
+            - echo "AWS_REGION is $AWS_REGION "
+            - REPOSITORY_URI="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/govwifi/$STAGE/database-backup"
+            - echo "REPOSITORY_URI is $REPOSITORY_URI"
+            - echo "$DOCKER_HUB_AUTHTOKEN_ENV" | docker login -u $(echo $DOCKER_HUB_USERNAME_ENV) --password-stdin
+            - IMAGE_TAG="latest"
+
+    build:
+        commands:
+            - echo Build started on `date`
+            - echo "Building database-backup Docker image..."
+            - docker build --build-arg BUNDLE_INSTALL_CMD='bundle install --without test' -t $REPOSITORY_URI:$IMAGE_TAG .
+    post_build:
+        commands:
+            - echo "Pushing the Docker images..."
+            - echo "Logging into AWS ECR"
+            - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+            - echo "Pushing database-backup image"
+            - docker push $REPOSITORY_URI:$IMAGE_TAG
