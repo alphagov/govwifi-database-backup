@@ -2,7 +2,7 @@ name: govwifi-database-backup test
 on:
   push:
     branches:
-      - master
+      - improve-logging-4-broken-test
   pull_request:
     branches:
       - master
