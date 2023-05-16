@@ -5,6 +5,8 @@ do
   sleep 1
 done
 
+echo "mysql command worked"
+
 until docker-compose exec -T fake-s3 awslocal s3api head-bucket --bucket backup-bucket 2>/dev/null
 do
   printf "."
