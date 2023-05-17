@@ -23,7 +23,6 @@ services:
       - AWS_SECRET_ACCESS_KEY=testsecret
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./fake-s3:/docker-entrypoint-initaws.d
       - s3-data:/tmp/localstack
 
   app:

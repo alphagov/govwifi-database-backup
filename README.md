@@ -10,6 +10,10 @@ Backups are scheduled to run nightly and target replica instances. This is in ad
 
 The backup script runs as a scheduled container task using Amazon ECS.
 
+The [Dockerfile](./Dockerfile) is used when creating the ECR image which is deployed to our ECS containers
+
+The [docker-compose.yml](./docker-compose.yml) file is used for running github actions tests unit tests. The Dockerfile and the docker compose file are independent of each other and perform separate functions (but are both necessary). 
+
 ## Getting started
 
 To build configure and run the application via docker-compose:
