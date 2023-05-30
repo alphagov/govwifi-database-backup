@@ -1,9 +1,0 @@
----
-platform: linux
-
-run:
-  path: bash
-  args:
-    - '-exc'
-    - |
-      echo "no deploy step needed for database-backup"
