@@ -12,5 +12,18 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: Run tests
-        run: make test
+      - name: Make sure no docker containers are running
+        run: |
+            docker-compose down
+      - name: Bring up database and S3 bucket simulator
+        run: |
+            docker-compose up --build -d db fake-s3
+      - name: Create the fake S3 Bucket
+        run: |
+            docker-compose exec -T fake-s3 awslocal s3 mb s3://backup-bucket
+      - name: Check all services are ready
+        run: |
+            ./mysql/wait_for_services & wait
+      - name: Bring up application and test the backups
+        run: |
+            docker-compose up app
